@@ -7,6 +7,7 @@ import {
 	Collection,
 	REST,
 	Routes,
+	MessageFlags,
 } from "discord.js";
 import { ofetch } from "ofetch";
 
@@ -67,9 +68,10 @@ client.on(Events.InteractionCreate, async (interaction) => {
 			const now = Date.now();
 			if (lastUsed && now - lastUsed < COOLDOWN_MS) {
 				const left = Math.ceil((COOLDOWN_MS - (now - lastUsed)) / 1000);
-				await interaction.reply(
-					`Please wait ${left}s before using this command again (global cooldown).`,
-				);
+				await interaction.reply({
+					content: `Please wait ${left}s before using this command again (global cooldown).`,
+					flags: MessageFlags.Ephemeral,
+				});
 				return;
 			}
 
@@ -88,9 +90,10 @@ client.on(Events.InteractionCreate, async (interaction) => {
 		} catch (err: any) {
 			console.error(`Error handling ${PREFIX}yisang:`, err?.stack ?? err);
 			try {
-				await interaction.reply(
-					"An error occurred while processing your request.",
-				);
+				await interaction.reply({
+					content: "น้องปรีไม่สามารถเขียน Code ที่มีประสิทธิภาพได้ 😔",
+					flags: MessageFlags.Ephemeral,
+				});
 			} catch (_) {
 				// ignore
 			}
